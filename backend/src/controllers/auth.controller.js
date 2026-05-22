@@ -4,11 +4,11 @@ const jwt = require('jsonwebtoken');
 
 const generateToken = (user) => {
     return jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
-}
+};
 
 exports.signup = async (req, res) => {
     try {
-        const {username, email, password} = req.body;
+        const { username, email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -18,7 +18,8 @@ exports.signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({ username, email, password: hashedPassword });
 
-        res.status(201).json({ token });
+        const token = generateToken(newUser); // ← was missing: token variable never defined
+        res.status(201).json({ token, username: newUser.username });
     } catch (error) {
         res.status(500).json({ message: 'Error creating user' });
     }
@@ -37,6 +38,7 @@ exports.login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
+
         res.json({ token: generateToken(user), username: user.username });
     } catch (error) {
         res.status(500).json({ message: 'Error logging in' });
