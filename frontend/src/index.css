@@ -2,7 +2,133 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  padding: 0;
+/* ── Global reset & base ────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-dark-950 text-slate-100 font-sans;
+    margin: 0;
+    min-height: 100dvh;
+    background-image:
+      radial-gradient(at 20% 10%, rgba(109,40,217,0.18) 0px, transparent 50%),
+      radial-gradient(at 80% 5%,  rgba(14,165,233,0.1)  0px, transparent 50%),
+      radial-gradient(at 5%  80%, rgba(109,40,217,0.12) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  ::-webkit-scrollbar       { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-dark-700 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-violet-600; }
+
+  ::selection { @apply bg-violet-600/40 text-white; }
+}
+
+/* ── Component layer ────────────────────────────────────── */
+@layer components {
+
+  /* Glass card */
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl;
+  }
+  .glass-sm {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl;
+  }
+
+  /* Primary gradient button */
+  .btn-primary {
+    @apply relative overflow-hidden inline-flex items-center justify-center gap-2
+           px-5 py-2.5 rounded-xl font-semibold text-sm text-white
+           bg-gradient-to-r from-violet-600 to-violet-500
+           shadow-glow-violet
+           transition-all duration-200
+           hover:from-violet-500 hover:to-violet-400
+           hover:shadow-[0_0_32px_rgba(139,92,246,0.5)]
+           hover:-translate-y-0.5
+           active:scale-95
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2 rounded-xl text-sm font-medium text-slate-300
+           border border-white/10
+           hover:bg-white/10 hover:text-white
+           transition-all duration-150;
+  }
+
+  /* Danger button */
+  .btn-danger {
+    @apply inline-flex items-center gap-1 text-xs font-medium text-red-400
+           hover:text-red-300 transition-colors duration-150;
+  }
+
+  /* Input field */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl text-sm text-slate-100 placeholder-slate-500
+           bg-white/5 border border-white/10
+           focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20
+           transition-all duration-200;
+  }
+
+  /* Label */
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5;
+  }
+
+  /* Tag badge */
+  .tag {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+           bg-violet-500/15 text-violet-300 border border-violet-500/20;
+  }
+
+  /* Pin badge */
+  .badge-pinned {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold
+           bg-amber-400/15 text-accent-amber border border-amber-400/20;
+  }
+
+  /* Navbar link */
+  .nav-link {
+    @apply text-sm font-medium text-slate-400 hover:text-white transition-colors duration-150;
+  }
+
+  /* Note card */
+  .note-card {
+    @apply glass p-5 flex flex-col gap-3
+           hover:border-violet-500/40 hover:shadow-card-hover
+           transition-all duration-250 cursor-default
+           animate-fade-in;
+  }
+
+  /* Auth card */
+  .auth-card {
+    @apply glass p-8 w-full max-w-md animate-slide-up;
+  }
+
+  /* Section heading */
+  .section-title {
+    @apply font-display font-bold text-2xl text-white tracking-tight;
+  }
+}
+
+/* ── Utilities ──────────────────────────────────────────── */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
 }
